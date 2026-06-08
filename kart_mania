@@ -18,208 +18,141 @@ programa
 	real valorManutencao[15]
 
 
-	escreva("Menu Do Kart Mania\n")
-	escreva("=====================================================================")
-	escreva("1 - Cadastrar Kart\n 2 - Listar Disponíveis \n 3 - Listar Locados \n 4 - Listar Manutenção \n 5 - Atualizar Dados\n 6 - Alugar Kart\n 0 - Sair")
-	leia(opcao)
+		escreva("Menu Do Kart Mania\n")
+		escreva("=====================================================================\n")
+		escreva("1 - Cadastrar Kart\n 2 - Listar Disponíveis \n 3 - Listar Locados \n 4 - Listar Manutenção \n 5 - Atualizar Dados\n 6 - Alugar Kart\n 0 - Sair \n")
+		leia(opcao)
 		
-		se(opcao == 1){
+	se(opcao == 1){
 		
-		 cadatrodeKarts()
+		cadastrodeKarts(modelos, cores, status, valoresLocacao,  valorManutencao, quantidadeKarts, quantidadedeLocacao, locado)
 
 		
-		}senao se(opcao==2){
+	}senao se(opcao==2){
 			
 		listarKartsDisponiveis()
 			
-		}senao se(opcao==3){
+	}senao se(opcao==3){
 		
 		 ListarKartsLocados()
 			
-		}senao se(opcao==4){
+	}senao se(opcao==4){
 			
 		 ListarKartsManuntencao()
 		
-		}senao se(opcao==5){
+	}senao se(opcao==5){
 			
 		 AtualizarDadosKart()
 		
-		}senao se(opcao==6){
+	}senao se(opcao==6){
 			
 		 AlugarKart()
 		}
 	
 	}
-	 funcao cadastrodeKarts(
-    cadeia modelos[],
-    cadeia cores[],
-    real valoresLocacao[],
-    inteiro &quantidadeKarts,
-    logico locado[],
+	funcao cadastrodeKarts(
+		
+	cadeia modelos[],
+	cadeia cores[],
+	cadeia status[],
+	
+	real valoresLocacao[],
+	real valorManutencao[],
+	
+	inteiro &quantidadeKarts,
 	inteiro quantidadeLocacao[],
-	real valorManutencao[]
-){
+	
+	logico locado[]
+	
+	){
+	
 		//modelos,corres,valorr de locação, status, qauntidadedeKarts
 		inteiro opcaoStatus = 0
 		
-		locado = falso
-		quantidadeLocacao = 0
-		valorManutencao = 0
-
+		
 		se(quantidadeKarts == 15){
 			
-		escreva(""/*mensagem de errro*/)	
+			escreva("Limite Karts atingindo")	
+			
+			retorne
 		}
 
-		escreva("Digite o modelo do seu kart:/n ")
-		leia(modelos[quantidadeKarts])
+			escreva("Digite o modelo do seu kart:\n ")
+			leia(modelos[quantidadeKarts])
 
-		escreva("Digite a cor do seu Kart:\n")
-		leia(cores[quantidadeKarts])
+			escreva("Digite a cor do seu Kart:\n")
+			leia(cores[quantidadeKarts])
 
-		escreva("Digite o valor de locação do seu Kart:\n")
-		leia(valoresLocacao[quantidadeKarts])
+			faca{
+			escreva("Digite o valor de locação do seu Kart:\n")
+			
+			leia(valoresLocacao[quantidadeKarts])
+			
+			se(valoresLocacao[quantidadeKarts] > 0){
+				
+			escreva("\nValor Registrado\n")
+				}senao{
+					escreva("\nNumero incorreto\n")
+					}
+			}enquanto(valoresLocacao[quantidadeKarts] < 0)
+			
+		/*se(valoresLocacao > 0){
+			
+			escreva("Confirmado")
+		}senao{
 
-		escreva("Digite o status do seu Kart:\n 1. Usavel \n 2. Em manutenção")
-		leia(opcaoStatus)
+			escreva("Digite novamente o valor não pode ser abaixo ou igual a zero")
+			
+		}
+
+		*/
+		faca{
+			escreva("Digite o status do seu Kart:\n 1. Usavel \n 2. Em manutenção\n")
+			
+			leia(opcaoStatus)
+			
+			escreva("Valor digitado: ", opcaoStatus, "\n")
+			
 		se(opcaoStatus==1){
-			escreva("Salvo para uso")
-			}senao{
-			escreva("Salvo em manutenção")
-				}
+			
+			escreva("\nSalvo para uso\n")
+			
+			status[quantidadeKarts] = "Usavel"
+			
+		}senao se(opcaoStatus==2){
+				
+			escreva("\nSalvo em manutenção\n")
+			
+			status[quantidadeKarts] = "Em manuntenção"
+			
+		}senao{
+			
+		escreva("\nNumero incorreto\n")
+
+			
+		}
+		}enquanto(opcaoStatus != 1 e opcaoStatus != 2)
+				
+		locado[quantidadeKarts] = falso
+		
+		quantidadeLocacao[quantidadeKarts] = 0
+		
+		valorManutencao[quantidadeKarts] = 0.0
 		
 		quantidadeKarts = quantidadeKarts+1
-		
+
+		escreva("\nO kart foi cadastrado com sucesso")
+
+		retorne
 	}
+	
 	funcao listarKartsDisponiveis(){}
 	funcao ListarKartsLocados(){}
 	funcao ListarKartsManuntencao(){}
 	funcao AtualizarDadosKart(){}
 	funcao AlugarKart(){}
-	/*1.0 → entender: adicionar um novo kart no sistema
 
-1.1 → verificar limite
-      se quantidade >= 15:
-          mostrar "limite atingido"
-          parar função
-
-1.2 → pedir dados do kart
-      ler modelo
-      ler cor
-      ler valor
-
-1.3 → definir estado inicial
-      vezesLocado = 0
-      locado = falso
-      emManutencao = falso
-
-1.4 → guardar no vetor
-      karts[quantidade] recebe os dados
-
-1.5 → atualizar quantidade
-      quantidade = quantidade + 1
-      
-      
-      
-      */
-}
-programa
-{
 	
-	funcao inicio()
-	{	
-	cadeia modelos[15]
-	cadeia cores[15]
-	
-	cadeia status[15]
-	logico locado[15]
-	
-	inteiro quantidadeKarts = 0
-	inteiro quantidadedeLocacao[15]
-	inteiro opcao 
-
-	real valoresLocacao[15]
-	real valorManutencao[15]
-
-
-	escreva("Menu Do Kart Mania\n")
-	escreva("=====================================================================")
-	escreva("1 - Cadastrar Kart\n 2 - Listar Disponíveis \n 3 - Listar Locados \n 4 - Listar Manutenção \n 5 - Atualizar Dados\n 6 - Alugar Kart\n 0 - Sair")
-	leia(opcao)
-		
-		se(opcao == 1){
-		
-		 cadatrodeKarts()
-
-		
-		}senao se(opcao==2){
-			
-		listarKartsDisponiveis()
-			
-		}senao se(opcao==3){
-		
-		 ListarKartsLocados()
-			
-		}senao se(opcao==4){
-			
-		 ListarKartsManuntencao()
-		
-		}senao se(opcao==5){
-			
-		 AtualizarDadosKart()
-		
-		}senao se(opcao==6){
-			
-		 AlugarKart()
-		}
-	
-	}
-	 funcao cadastrodeKarts(
-    cadeia modelos[],
-    cadeia cores[],
-    real valoresLocacao[],
-    inteiro &quantidadeKarts,
-    logico locado[],
-	inteiro quantidadeLocacao[],
-	real valorManutencao[]
-){
-		//modelos,corres,valorr de locação, status, qauntidadedeKarts
-		inteiro opcaoStatus = 0
-		
-		locado = falso
-		quantidadeLocacao = 0
-		valorManutencao = 0
-
-		se(quantidadeKarts == 15){
-			
-		escreva(""/*mensagem de errro*/)	
-		}
-
-		escreva("Digite o modelo do seu kart:/n ")
-		leia(modelos[quantidadeKarts])
-
-		escreva("Digite a cor do seu Kart:\n")
-		leia(cores[quantidadeKarts])
-
-		escreva("Digite o valor de locação do seu Kart:\n")
-		leia(valoresLocacao[quantidadeKarts])
-
-		escreva("Digite o status do seu Kart:\n 1. Usavel \n 2. Em manutenção")
-		leia(opcaoStatus)
-		se(opcaoStatus==1){
-			escreva("Salvo para uso")
-			}senao{
-			escreva("Salvo em manutenção")
-				}
-		
-		quantidadeKarts = quantidadeKarts+1
-		
-	}
-	funcao listarKartsDisponiveis(){}
-	funcao ListarKartsLocados(){}
-	funcao ListarKartsManuntencao(){}
-	funcao AtualizarDadosKart(){}
-	funcao AlugarKart(){}
 	/*1.0 → entender: adicionar um novo kart no sistema
 
 1.1 → verificar limite
