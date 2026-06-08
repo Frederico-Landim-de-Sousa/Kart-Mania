@@ -1,4 +1,3 @@
-
 programa
 {
 	
@@ -14,11 +13,12 @@ programa
 	inteiro quantidadedeLocacao[15]
 	inteiro opcao 
 
+
 	real valoresLocacao[15]
 	real valorManutencao[15]
 
-
-		escreva("Menu Do Kart Mania\n")
+		faca{
+		escreva("\nMenu Do Kart Mania\n")
 		escreva("=====================================================================\n")
 		escreva("1 - Cadastrar Kart\n 2 - Listar Disponíveis \n 3 - Listar Locados \n 4 - Listar Manutenção \n 5 - Atualizar Dados\n 6 - Alugar Kart\n 0 - Sair \n")
 		leia(opcao)
@@ -30,7 +30,7 @@ programa
 		
 	}senao se(opcao==2){
 			
-		listarKartsDisponiveis()
+		listarKartsDisponiveis(modelos, cores, status, valoresLocacao, quantidadeKarts, locado)
 			
 	}senao se(opcao==3){
 		
@@ -47,9 +47,15 @@ programa
 	}senao se(opcao==6){
 			
 		 AlugarKart()
-		}
-	
+		}senao se(opcao == 0)
+	{
+	escreva("Encerrando sistema...")
 	}
+	
+	}enquanto( opcao !=0 )
+
+	}
+	
 	funcao cadastrodeKarts(
 		
 	cadeia modelos[],
@@ -146,7 +152,48 @@ programa
 		retorne
 	}
 	
-	funcao listarKartsDisponiveis(){}
+	funcao listarKartsDisponiveis(
+		
+	cadeia modelos[],
+	cadeia cores[],
+	cadeia status[],
+	
+	real valoresLocacao[],
+	
+	inteiro &quantidadeKarts,
+	
+	
+	logico locado[]
+	
+	){
+		
+	logico escolheu = falso
+	inteiro i = 0
+			 
+		
+			
+		
+		para( i = 0; i < quantidadeKarts; i++){
+				
+		se(locado[i] == falso e status[i] == "Usavel"){
+			escreva(  "\nKart: ", i+1,
+					"\nModelo: ", modelos[i],
+					"\nCor: ", cores[i],
+					"\nValor: R$", valoresLocacao[i]
+					
+)
+			escolheu = verdadeiro
+							
+				}
+			
+			}
+			se(escolheu == falso){
+				
+				escreva("\nNenhum Kart Disponível\n")
+				
+				}
+		
+		}
 	funcao ListarKartsLocados(){}
 	funcao ListarKartsManuntencao(){}
 	funcao AtualizarDadosKart(){}
