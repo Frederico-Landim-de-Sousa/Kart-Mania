@@ -17,7 +17,7 @@ programa
         faca{
             	escreva("\nMenu Do Kart Mania\n")
             	escreva("=====================================================================\n")
-            	escreva("1 - Cadastrar Kart\n 2 - Listar Disponíveis \n 3 - Listar Locados \n 4 - Listar Manutenção \n 5 - Atualizar Dados\n 6 - Alugar Kart\n 0 - Sair \n")
+            	escreva(" 1 - Cadastrar Kart\n 2 - Listar Disponíveis \n 3 - Listar Locados \n 4 - Listar Manutenção \n 5 - Atualizar Dados\n 6 - Alugar Kart\n 0 - Sair \n")
             	leia(opcao)
 
             	se (opcao == 1) {
@@ -42,7 +42,7 @@ programa
                 
             	}senao se (opcao == 6) {
             	
-               	AlugarKart()
+               	AlugarKart(modelos, cores, status, valoresLocacao, quantidadeKarts, locado)
                 
             	}senao se (opcao == 0) {
             	
@@ -66,14 +66,16 @@ programa
 
         	se (quantidadeKarts == 15) {
         	
-           	escreva("Limite Karts atingindo")
+           	escreva("\nLimite Karts atingindo")
             
             	retorne
         }
 
         	escreva("Digite o modelo do seu kart:\n ")
         	leia(modelos[quantidadeKarts])
+		
 
+		
         	escreva("Digite a cor do seu Kart:\n")
         	leia(cores[quantidadeKarts])
 
@@ -159,14 +161,15 @@ programa
      logico escolheu= falso
      inteiro i = 0
 
-        	para(i = 0; i < quantidadeKarts; i++){
-        		se(locado[i] == verdadeiro e status[i] == "Usavel"){
-        			escreva(
+     para(i = 0; i < quantidadeKarts; i++){
+     	
+        	se(locado[i] == verdadeiro e status[i] == "Usavel"){
+        		
+        		escreva(
         				"\nKart ",i + 1,
         				"\nModelo: ", modelos[i],
         				"\nCor: ", cores[i],
         				"\nValor R$ ", valoresLocacao[i]
-        				
         				)
         				escolheu = verdadeiro
         			
@@ -239,11 +242,11 @@ programa
      	inteiro opcaoStatus = 0
      	
      	
-     	para (i = 0; i < quantidadeKarts; i++) 
-     	{
-				se (locado[i] == falso e status[i] == "Usavel") 
-				{
-					escreva(
+     	para (i = 0; i < quantidadeKarts; i++){
+     		
+			se (locado[i] == falso ou locado[i] == verdadeiro){
+				
+				escreva(
                     		"\nKart: ", i + 1,
                     		"\nModelo: ", modelos[i],
                     		"\nCor: ", cores[i],
@@ -257,14 +260,20 @@ programa
         se (escolheu == falso) {
         	escreva("\nNenhum Kart Disponível\n")
         	retorne
+        	
         	}
         	
         escreva("Qual kart você deseja alterar informação?\n")
         leia(indice)
         indice = indice - 1
-        se(indice < 0){
+        escreva("\n Valor digitado: ", indice)
+        
+        se(indice < 0 ou indice >= quantidadeKarts){
+        	
         	escreva("\n Kart inexistente")
+        	
         	retorne
+        	
         	}
         
         	escreva(
@@ -272,60 +281,82 @@ programa
                "\n 1.Modelo: ", modelos[indice],
                "\n 2.Cor: ", cores[indice],
                "\n 3.Valor: R$ ", valoresLocacao[indice],
-               "\n 4.Status do carro\n", status[indice]
+               "\n 4.Status do carro: ", status[indice]
         	  	)
-        	  	leia(opcaoAlterar)
+        	leia(opcaoAlterar)
         	  	
-			faca {
+			faca{
+				
 				se(opcaoAlterar == 1){
+					
 					escreva("O modelo atual do carro e ", modelos[indice], " Qual o novo modelo para ser atribuido?\n")
+					
 					leia(modelos[indice])
+					
+					escreva("\nModelo atualizado com sucesso\n")
+					
 					}senao se(opcaoAlterar == 2){
+						
 						escreva("A cor atual do Kart e :", cores[indice], "Qual o novo cor a ser atribuido: \n")
+						
 						leia(cores[indice])
 
+						escreva("\nCor atualizado com sucesso\n")
+						
         	  			}senao se(opcaoAlterar == 3){
         	  			
         	  				escreva("O valor de locação atual e", valoresLocacao[indice], "Qual o novo valor a ser atribuido: \n")
+        	  				
         	  				leia(valoresLocacao[indice])
+
+        	  				escreva("\nO valor de locação foi atualizado com sucesso\n")
         	  			
         	  			}senao se(opcaoAlterar <= 0){
         	  			
         	  				escreva("Numero dígitado incorreto tente novamente")
         	  				
-        	  			
+        	  			}se(opcaoAlterar == 4){
         	  				
-        	  			}
-        	  			
-        	  			se(opcaoAlterar == 4){
         	  				escreva("O status atual do seu carro e", status[indice], "Você deseja modificar para",
         	  				"\n1- Usavel",
         	  				"\n2- Em manutenção"
         	  				)
         	  				leia(opcaoStatus)
         	  				
-        	  			}se (opcaoStatus == 1) {
+        	  			se(opcaoStatus == 1) {
+        	  				
         	  				escreva("\nSalvo para uso\n")
                 		
                 			status[indice] = "Usavel"
                 		
-            				}senao se (opcaoStatus == 2){
+            				}senao se(opcaoStatus == 2){
             				
             				escreva("\nSalvo em manutenção\n")
             				
+            				
                 			status[indice] = "Em manuntenção"
                 			
-                			} senao {
+                			}senao{
                 				
                 			escreva("\nNumero incorreto\n")
                 			
             				}
+        	  			}
         	  		}
         	  		enquanto(opcaoAlterar != 1 e opcaoAlterar !=2 e opcaoAlterar != 3 e opcaoAlterar  != 4)
      		}
     		
 		    		
-    		   funcao AlugarKart() {}
+    		   funcao AlugarKart( 
+    		   		
+    		   	cadeia modelos[],
+  			cadeia cores[],
+     		cadeia status[],
+     		real valoresLocacao[],
+     		inteiro &quantidadeKarts,
+     		logico locado[]) {
+     			
+     			}
     		}
     	
     	    	
