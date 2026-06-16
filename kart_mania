@@ -5,6 +5,7 @@ programa
     	cadeia modelos[15]
     	cadeia cores[15]
     	cadeia status[15]
+    	
     	logico locado[15]
 
      inteiro quantidadeKarts = 0
@@ -14,7 +15,8 @@ programa
      real valoresLocacao[15]
      real valorManutencao[15]
 
-        faca{
+        faca{	
+        		
             	escreva("\nMenu Do Kart Mania\n")
             	escreva("=====================================================================\n")
             	escreva(" 1 - Cadastrar Kart\n 2 - Listar Disponíveis \n 3 - Listar Locados \n 4 - Listar Manutenção \n 5 - Atualizar Dados\n 6 - Alugar Kart\n 0 - Sair \n")
@@ -42,7 +44,7 @@ programa
                 
             	}senao se (opcao == 6) {
             	
-               	AlugarKart(modelos, cores, status, valoresLocacao, quantidadeKarts, locado)
+               	AlugarKart(modelos, cores, status, valoresLocacao, quantidadeKarts,quantidadedeLocacao, locado)
                 
             	}senao se (opcao == 0) {
             	
@@ -56,10 +58,13 @@ programa
     		cadeia modelos[],
         	cadeia cores[],
         	cadeia status[],
+        	
         	real valoresLocacao[],
         	real valorManutencao[],
+        	
         	inteiro &quantidadeKarts,
         	inteiro quantidadeLocacao[],
+        	
         	logico locado[]
     ) {
         	inteiro opcaoStatus = 0
@@ -112,8 +117,11 @@ programa
         } enquanto (opcaoStatus != 1 e opcaoStatus != 2)
 
         locado[quantidadeKarts] = falso
+        
         quantidadeLocacao[quantidadeKarts] = 0
+        
         valorManutencao[quantidadeKarts] = 0.0
+       
         quantidadeKarts = quantidadeKarts + 1
 
         escreva("\nO kart foi cadastrado com sucesso")
@@ -354,9 +362,54 @@ programa
      		cadeia status[],
      		real valoresLocacao[],
      		inteiro &quantidadeKarts,
+     		inteiro quantidadeLocacao[],
      		logico locado[]) {
      			
-     			}
+     			logico encontrou = falso
+				inteiro i
+				inteiro indice
+
+				para(i = 0; i < quantidadeKarts; i++)
+				{
+   					 se(locado[i] == falso e status[i] == "Usavel")
+    				{
+       		 		encontrou = verdadeiro
+   				 }
+				
+				}
+					se(encontrou == falso)
+				{
+    				escreva("\nNenhum kart disponível para locação.\n")
+    				
+    				retorne
+    				
+				}
+				
+     			listarKartsDisponiveis(modelos, cores, status, valoresLocacao, quantidadeKarts, locado)
+				
+				escreva("\nDigite qual kart você deseja alugar?:\n")
+     			leia(indice)
+     			indice = indice - 1
+     			
+     			se(indice < 0 ou indice >= quantidadeKarts){
+        	
+        				escreva("\n Kart inexistente")
+        	
+        				retorne
+        	
+        			}
+        			se(locado[indice] == verdadeiro){
+        				
+        				escreva("O Kart ja está locado")
+
+        				retorne
+        			}
+        			escreva("\nO kart selecionado foi", indice+1, ". Agora esta locado\n")
+        			locado[indice] = verdadeiro
+				quantidadeLocacao[indice] = quantidadeLocacao[indice] + 1
+        			
+					
+     		}
     		}
     	
     	    	
