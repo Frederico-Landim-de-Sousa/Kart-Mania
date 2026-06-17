@@ -582,6 +582,7 @@ programa
 		real &valorCircuito,
 		logico &circuitoLocado)
 		{
+\\DEFINE NA PRIMEIRA ATUALIZAÇÃO O VALOR\\
 			inteiro opcao
 
 			se(valorCircuito == 0)
@@ -591,6 +592,7 @@ programa
 					escreva("\nDigite o valor de locação do circuito: ")
 					leia(valorCircuito)
 
+\\VERIFICA SE É VALIDO O VALOR DIGITADO\\
 					se(valorCircuito <= 0)
 					{
 						escreva("\nValor inválido.")
@@ -599,18 +601,21 @@ programa
 				}enquanto(valorCircuito <= 0)
 			}
 
+\\VERIFICA SE O CIRCUITO JA ESTA ALUGADO
 			se(circuitoLocado == verdadeiro)
 			{
 				escreva("\nO circuito já está locado.")
 				retorne
 			}
 
+\\EXIBE O VALOR E PERGUNTA SE DESEJA LOCAR\\
 			escreva("\nValor do circuito: R$ ", valorCircuito)
 			escreva("\nDeseja locar o circuito?")
 			escreva("\n1 - Sim")
 			escreva("\n2 - Não")
 			leia(opcao)
 
+\\REALIZA A LOCAÇÃO DO CIRCUITO\\
 			se(opcao == 1)
 			{
 				circuitoLocado = verdadeiro
@@ -626,14 +631,17 @@ programa
 			inteiro i
 			logico encontrou = falso
 
+\\INICIO A ATULIAZAÇÃO DO DIA\\
 			escreva("\n================================")
 			escreva("\nATUALIZANDO DIA")
 			escreva("\n================================")
 
+\\LIBERA O CIRCUITO PARA LOCAÇÕES\\
 			circuitoLocado = falso
 
 			escreva("\nCircuito liberado para nova locação.\n")
 
+\\EXIBE OS KARTS QUE CONTINUAM LOCADOS\\
 			escreva("\nKarts que precisam de nova cobrança:\n")
 
 			para(i = 0; i < quantidadeKarts; i++)
@@ -645,6 +653,7 @@ programa
 				}
 			}
 
+\\CASO NENHUM KART ESTEJA LOCADO\\
 			se(encontrou == falso)
 			{
 				escreva("Nenhum kart locado.\n")
