@@ -3,25 +3,27 @@ programa
 	inclua biblioteca Util-->u
 	
     funcao inicio(){
+    	
 
-//VETORES QUE ARMAZENAM OS DADOS DOS KARTS//
-        cadeia modelos[15]
+	//VETORES QUE ARMAZENAM OS DADOS DOS KARTS//
+     cadeia modelos[15]
     	cadeia cores[15]
     	cadeia status[15]
     	logico locado[15]
 
-//QUANTIDADE DE KARTS CADASTRADOS//
+	//QUANTIDADE DE KARTS CADASTRADOS//
      inteiro quantidadeKarts = 0
 
-//QUANTIDADE DE VEZES QUE CADA KART FOI ALUGADO//
+	//QUANTIDADE DE VEZES QUE CADA KART FOI ALUGADO//
      inteiro quantidadedeLocacao[15]
      inteiro opcao
 
-//VALORES DE LOCAÇÃO E MANUTENÇÃO//
-	 real valoresLocacao[15]
+	//VALORES DE LOCAÇÃO E MANUTENÇÃO//
+	real valoresLocacao[15]
      real valorManutencao[15]
-     real valorCircuito = 0
-	 logico circuitoLocado = falso
+     real valorCircuito = 0.00
+	
+	logico circuitoLocado = falso
 
         faca{	
         		
@@ -52,7 +54,7 @@ programa
                 
             	}senao se (opcao == 5) {
             	
-                	AtualizarDadosKart(modelos, cores, status, valoresLocacao, quantidadeKarts, locado)
+                	AtualizarDadosKart(modelos, cores, status, valoresLocacao, valorManutencao, quantidadeKarts, locado)
                 	u.aguarde(5000)
                 
             	}senao se (opcao == 6) {
@@ -271,51 +273,49 @@ programa
      cadeia cores[],
      cadeia status[],
      real valoresLocacao[],
+     real valorManutencao[],
      inteiro &quantidadeKarts,
      logico locado[]
      )
      {
-     	logico escolheu = falso
+     	real custoManutencao
      	inteiro opcaoAlterar
      	inteiro i = 0
      	inteiro indice 
      	inteiro opcaoStatus = 0
-     	
-     	
-     	para (i = 0; i < quantidadeKarts; i++){
+
+     	se(quantidadeKarts == 0){
      		
-			se (locado[i] == falso ou locado[i] == verdadeiro){
-				
-				escreva(
-                    		"\nKart: ", i + 1,
-                    		"\nModelo: ", modelos[i],
-                    		"\nCor: ", cores[i],
-                    		"\nValor: R$ \n", valoresLocacao[i]
-                			)
-                	escolheu = verdadeiro
-                	
-                	}
-            }
-        
-        se (escolheu == falso) {
         	escreva("\nNenhum Kart Disponível\n")
+        	
         	retorne
         	
         	}
-        	
-        escreva("Qual kart você deseja alterar informação?\n")
-        leia(indice)
-        indice = indice - 1
-        escreva("\n Valor digitado: ", indice)
+     	
+     	para(i = 0; i < quantidadeKarts; i++){
+     		
+     		escreva(
+     			"\nKart: ", i + 1,
+                    "\nModelo: ", modelos[i],
+                    "\nCor: ", cores[i],
+                    "\nValor: R$ \n", valoresLocacao[i]
+                	)           	
+            }
+                    	
+        	escreva("Qual kart você deseja alterar informação?\n")
+        	leia(indice)
+        	indice = indice - 1
+        	escreva("\n Valor digitado: ", indice)
         
-        se(indice < 0 ou indice >= quantidadeKarts){
+        	se(indice < 0 ou indice >= quantidadeKarts){
         	
         	escreva("\n Kart inexistente")
         	
         	retorne
         	
         	}
-        
+        	
+        	faca{
         	escreva(
         		"Qual informação você deseja alterar:\n", 
                "\n 1.Modelo: ", modelos[indice],
@@ -325,7 +325,7 @@ programa
         	  	)
         	leia(opcaoAlterar)
         	  	
-			faca{
+		
 				
 				se(opcaoAlterar == 1){
 					
@@ -344,16 +344,24 @@ programa
 						escreva("\nCor atualizado com sucesso\n")
 						
         	  			}senao se(opcaoAlterar == 3){
+        	  				
         	  			
         	  				escreva("O valor de locação atual e", valoresLocacao[indice], "Qual o novo valor a ser atribuido: \n")
         	  				
-        	  				leia(valoresLocacao[indice])
+        	  				faca{
+        	  					
+        	  					leia(valoresLocacao[indice])
+
+        	  					
+
+        	  					se(valoresLocacao[indice] <= 0){
+        	  						
+        	  						escreva("\nO valor de locação digitado e invalido. ")
+        	  						
+        	  					}
+        	  				}enquanto(valoresLocacao[indice] <= 0)
 
         	  				escreva("\nO valor de locação foi atualizado com sucesso\n")
-        	  			
-        	  			}senao se(opcaoAlterar <= 0){
-        	  			
-        	  				escreva("Numero dígitado incorreto tente novamente")
         	  				
         	  			}se(opcaoAlterar == 4){
         	  				
@@ -365,11 +373,32 @@ programa
         	  				
         	  			se(opcaoStatus == 1) {
         	  				
-        	  				escreva("\nSalvo para uso\n")
-                		
-                			status[indice] = "Usavel"
-                		
+        	  				se(status[indice] == "Em manuntenção"){
+        	  					
+            						
+    							escreva("\nQuanto foi gasto nesta manutenção? R$ ")
+    							faca{
+    								leia(custoManutencao)
+    							
+   
+
+    								se(custoManutencao < 0){
+        								escreva("\nValor invalido")
+   								}
+
+								}enquanto(custoManutencao < 0)
+
+   							valorManutencao[indice] = valorManutencao[indice] + custoManutencao
+
+    							
+	   						
+						}
+        	  				status[indice] = "Usavel"
+
+	   					escreva("\nSalvo para uso\n")
+                			
             				}senao se(opcaoStatus == 2){
+            					
             				
             				escreva("\nSalvo em manutenção\n")
             				
@@ -380,10 +409,11 @@ programa
                 				
                 			escreva("\nNumero incorreto\n")
                 			
-            				}
+                			}
+            				
         	  			}
         	  		}
-        	  		enquanto(opcaoAlterar != 1 e opcaoAlterar !=2 e opcaoAlterar != 3 e opcaoAlterar  != 4)
+        	  		enquanto(opcaoAlterar < 1 ou opcaoAlterar  > 4)
      		}
     		
 		    		
@@ -550,8 +580,8 @@ programa
 		real valorCircuito,
 		logico circuitoLocado)
 		{
-			real receita = 0
-			real lucro = 0
+			real receita = 0.0
+			real lucro = 0.0
 			inteiro i
 
 			para(i = 0; i < quantidadeKarts; i++)
@@ -582,7 +612,7 @@ programa
 		real &valorCircuito,
 		logico &circuitoLocado)
 		{
-\\DEFINE NA PRIMEIRA ATUALIZAÇÃO O VALOR\\
+
 			inteiro opcao
 
 			se(valorCircuito == 0)
@@ -592,7 +622,7 @@ programa
 					escreva("\nDigite o valor de locação do circuito: ")
 					leia(valorCircuito)
 
-\\VERIFICA SE É VALIDO O VALOR DIGITADO\\
+
 					se(valorCircuito <= 0)
 					{
 						escreva("\nValor inválido.")
@@ -601,21 +631,21 @@ programa
 				}enquanto(valorCircuito <= 0)
 			}
 
-\\VERIFICA SE O CIRCUITO JA ESTA ALUGADO
+
 			se(circuitoLocado == verdadeiro)
 			{
 				escreva("\nO circuito já está locado.")
 				retorne
 			}
 
-\\EXIBE O VALOR E PERGUNTA SE DESEJA LOCAR\\
+
 			escreva("\nValor do circuito: R$ ", valorCircuito)
 			escreva("\nDeseja locar o circuito?")
 			escreva("\n1 - Sim")
 			escreva("\n2 - Não")
 			leia(opcao)
 
-\\REALIZA A LOCAÇÃO DO CIRCUITO\\
+
 			se(opcao == 1)
 			{
 				circuitoLocado = verdadeiro
@@ -631,17 +661,17 @@ programa
 			inteiro i
 			logico encontrou = falso
 
-\\INICIO A ATULIAZAÇÃO DO DIA\\
+
 			escreva("\n================================")
 			escreva("\nATUALIZANDO DIA")
 			escreva("\n================================")
 
-\\LIBERA O CIRCUITO PARA LOCAÇÕES\\
+
 			circuitoLocado = falso
 
 			escreva("\nCircuito liberado para nova locação.\n")
 
-\\EXIBE OS KARTS QUE CONTINUAM LOCADOS\\
+
 			escreva("\nKarts que precisam de nova cobrança:\n")
 
 			para(i = 0; i < quantidadeKarts; i++)
@@ -653,11 +683,5 @@ programa
 				}
 			}
 
-\\CASO NENHUM KART ESTEJA LOCADO\\
-			se(encontrou == falso)
-			{
-				escreva("Nenhum kart locado.\n")
-			}
 		}
 }
-    	
