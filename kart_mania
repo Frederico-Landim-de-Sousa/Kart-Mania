@@ -1,132 +1,157 @@
 programa
 {
+	inclua biblioteca Util-->u
+	
     funcao inicio(){
     	
     	cadeia modelos[15]
     	cadeia cores[15]
     	cadeia status[15]
-    	
     	logico locado[15]
-
-     inteiro quantidadeKarts = 0
+	inteiro quantidadeKarts = 0
      inteiro quantidadedeLocacao[15]
      inteiro opcao
-
-     real valoresLocacao[15]
+	real valoresLocacao[15]
      real valorManutencao[15]
+     real valorCircuito = 0
+	logico circuitoLocado = falso
 
         faca{	
         		
             	escreva("\nMenu Do Kart Mania\n")
             	escreva("=====================================================================\n")
-            	escreva(" 1 - Cadastrar Kart\n 2 - Listar Disponíveis \n 3 - Listar Locados \n 4 - Listar Manutenção \n 5 - Atualizar Dados\n 6 - Alugar Kart\n 0 - Sair \n")
+            	escreva(" 1 - Cadastrar Kart\n 2 - Listar Disponíveis \n 3 - Listar Locados \n 4 - Listar Manutenção \n 5 - Atualizar Dados\n 6 - Alugar Kart\n 7 - Devolver Kart\n 8 - Kart que mais gerou ganhos \n 9 - Receita e Lucro do Dia \n 10 - Locação de Circuito \n 11 - Atualizar Dia \n 12 - Sair \n")
             	leia(opcao)
 
             	se (opcao == 1) {
             		
                 	cadastrodeKarts(modelos, cores, status, valoresLocacao, valorManutencao, quantidadeKarts, quantidadedeLocacao, locado)
-                	
+                	u.aguarde(5000)
+
             	}senao se (opcao == 2) {
             		
                 	listarKartsDisponiveis(modelos, cores, status, valoresLocacao, quantidadeKarts, locado)
+                	u.aguarde(5000)
                 
             	}senao se (opcao == 3) {
             	
               		ListarKartsLocados(modelos, cores, status, valoresLocacao, quantidadeKarts, locado)
+              		u.aguarde(5000)
 
             	}senao se (opcao == 4) {
             	
                 	ListarKartsManuntencao(modelos, cores, status, valoresLocacao, quantidadeKarts, locado)
+                	u.aguarde(5000)
                 
             	}senao se (opcao == 5) {
             	
                 	AtualizarDadosKart(modelos, cores, status, valoresLocacao, quantidadeKarts, locado)
+                	u.aguarde(5000)
                 
             	}senao se (opcao == 6) {
             	
                	AlugarKart(modelos, cores, status, valoresLocacao, quantidadeKarts,quantidadedeLocacao, locado)
+               	u.aguarde(5000)
                 
-            	}senao se (opcao == 0) {
+            	}senao se(opcao == 7){
+
+				DevolverKart(modelos,quantidadeKarts,locado)
+				u.aguarde(5000)
+            		
+        		}senao se(opcao == 8){
+
+				KartMaisGerouGanhos(modelos,cores,status,valoresLocacao,valorManutencao,quantidadedeLocacao,quantidadeKarts,locado)
+				u.aguarde(5000)
+        			
+        		}senao se(opcao == 9){
+
+				ReceitaELucroDoDia(valoresLocacao,locado,quantidadeKarts,valorCircuito,circuitoLocado)
+				u.aguarde(5000)
+
+			}senao se(opcao == 10){
+
+				LocacaoCircuito(valorCircuito,circuitoLocado)
+				u.aguarde(5000)
+
+			}senao se(opcao == 11){
+
+				AtualizarDia(modelos,quantidadeKarts,locado,circuitoLocado)
+				u.aguarde(5000)
+
+			}senao se (opcao == 12) {
             	
                 	escreva("Encerrando sistema...")
                 
             	}
-        }enquanto (opcao != 0)
+        }enquanto (opcao != 12)
     }
 
     funcao cadastrodeKarts(
     		cadeia modelos[],
         	cadeia cores[],
         	cadeia status[],
-        	
-        	real valoresLocacao[],
+		real valoresLocacao[],
         	real valorManutencao[],
-        	
         	inteiro &quantidadeKarts,
         	inteiro quantidadeLocacao[],
-        	
-        	logico locado[]
-    ) {
-        	inteiro opcaoStatus = 0
+        	logico locado[])
+        	{
+        		inteiro opcaoStatus = 0
 
-        	se (quantidadeKarts == 15) {
+        		se (quantidadeKarts == 15) {
         	
-           	escreva("\nLimite Karts atingindo")
+           		escreva("\nLimite Karts atingindo")
             
-            	retorne
-        }
+            		retorne
+      		}
 
-        	escreva("Digite o modelo do seu kart:\n ")
-        	leia(modelos[quantidadeKarts])
-		
+        		escreva("Digite o modelo do seu kart:\n ")
+        		leia(modelos[quantidadeKarts])
+			escreva("Digite a cor do seu Kart:\n")
+        		leia(cores[quantidadeKarts])
 
-		
-        	escreva("Digite a cor do seu Kart:\n")
-        	leia(cores[quantidadeKarts])
-
-        	faca {
+        		faca {
         		
-          	escreva("Digite o valor de locação do seu Kart:\n")
-            	leia(valoresLocacao[quantidadeKarts])
+          		escreva("Digite o valor de locação do seu Kart:\n")
+            		leia(valoresLocacao[quantidadeKarts])
 
-          	se (valoresLocacao[quantidadeKarts] > 0) {
-                	escreva("\nValor Registrado\n")
-                	
-            	}senao{
+          		se (valoresLocacao[quantidadeKarts] > 0) {
+                		escreva("\nValor Registrado\n")
+                	}senao{
             		
-                	escreva("\nNumero incorreto\n")
-                	
-            }
+                		escreva("\nNumero incorreto\n")
+                		
+                	}
             
-        }enquanto(valoresLocacao[quantidadeKarts] <= 0)
+        		}enquanto(valoresLocacao[quantidadeKarts] <= 0)
 
-        faca {
-            escreva("Digite o status do seu Kart:\n 1. Usavel \n 2. Em manutenção\n")
-            leia(opcaoStatus)
-            escreva("Valor digitado: ", opcaoStatus, "\n")
+        		faca {
+          		escreva("Digite o status do seu Kart:\n 1. Usavel \n 2. Em manutenção\n")
+          		leia(opcaoStatus)
+          		escreva("Valor digitado: ", opcaoStatus, "\n")
 
-            se (opcaoStatus == 1) {
-                escreva("\nSalvo para uso\n")
-                status[quantidadeKarts] = "Usavel"
-            } senao se (opcaoStatus == 2) {
-                escreva("\nSalvo em manutenção\n")
-                status[quantidadeKarts] = "Em manuntenção"
-            } senao {
-                escreva("\nNumero incorreto\n")
-            }
-        } enquanto (opcaoStatus != 1 e opcaoStatus != 2)
+            		se (opcaoStatus == 1) {
+               		 escreva("\nSalvo para uso\n")
+              			 status[quantidadeKarts] = "Usavel"
+           		} senao se (opcaoStatus == 2) {
+               		 escreva("\nSalvo em manutenção\n")
+               		 status[quantidadeKarts] = "Em manuntenção"
+				} senao {
+               		escreva("\nNumero incorreto\n")
+           		}
+        		} enquanto (opcaoStatus != 1 e opcaoStatus != 2)
 
-        locado[quantidadeKarts] = falso
+       		locado[quantidadeKarts] = falso
         
-        quantidadeLocacao[quantidadeKarts] = 0
+        		quantidadeLocacao[quantidadeKarts] = 0
         
-        valorManutencao[quantidadeKarts] = 0.0
+        		valorManutencao[quantidadeKarts] = 0.0
        
-        quantidadeKarts = quantidadeKarts + 1
+        		quantidadeKarts = quantidadeKarts + 1
 
-        escreva("\nO kart foi cadastrado com sucesso")
-        retorne
-    }
+        		escreva("\nO kart foi cadastrado com sucesso")
+        		retorne
+    		}
 
     funcao listarKartsDisponiveis(
         cadeia modelos[],
@@ -404,13 +429,219 @@ programa
 
         				retorne
         			}
-        			escreva("\nO kart selecionado foi", indice+1, ". Agora esta locado\n")
+        			escreva("\nO kart selecionado foi ", indice+1, ". Agora esta locado\n")
         			locado[indice] = verdadeiro
 				quantidadeLocacao[indice] = quantidadeLocacao[indice] + 1
         			
 					
      		}
-    		}
-    	
-    	    	
+    		
+    		funcao DevolverKart(
+		cadeia modelos[],
+		inteiro &quantidadeKarts,
+		logico locado[])
+		{
+			inteiro indice
+			inteiro i
+			logico encontrou = falso
+
+			para(i = 0; i < quantidadeKarts; i++)
+			{
+				se(locado[i] == verdadeiro)
+				{
+					escreva("\n", i + 1, " - ", modelos[i])
+					encontrou = verdadeiro
+				}
+			}
+
+			se(encontrou == falso)
+			{
+				escreva("\nNenhum kart está locado.\n")
+				retorne
+			}
+
+			escreva("\nDigite o número do kart que deseja devolver:\n")
+			leia(indice)
+
+			indice = indice - 1
+
+			se(indice < 0 ou indice >= quantidadeKarts)
+			{
+				escreva("\nKart inexistente.\n")
+				retorne
+			}
+
+			se(locado[indice] == falso)
+			{
+				escreva("\nEste kart já está disponível.\n")
+				retorne
+			}
+
+			locado[indice] = falso
+
+			escreva("\nKart devolvido com sucesso!\n")
+		}
+		funcao KartMaisGerouGanhos(
+		cadeia modelos[],
+		cadeia cores[],
+		cadeia status[],
+		real valoresLocacao[],
+		real valorManutencao[],
+		inteiro quantidadeLocacao[],
+		inteiro &quantidadeKarts,
+		logico locado[]
+		)
+		{
+			inteiro i
+			inteiro indiceMaior = 0
+
+			real maiorGanho
+			real ganhoAtual
+
+			se(quantidadeKarts == 0)
+			{
+				escreva("\nNenhum kart cadastrado.\n")
+				retorne
+			}
+
+			maiorGanho = quantidadeLocacao[0] * valoresLocacao[0]
+
+			para(i = 1; i < quantidadeKarts; i++)
+			{
+				ganhoAtual = quantidadeLocacao[i] * valoresLocacao[i]
+
+				se(ganhoAtual > maiorGanho)
+				{
+				maiorGanho = ganhoAtual
+				indiceMaior = i
+				}
+			}
+
+			escreva("\n===== KART QUE MAIS GEROU GANHOS =====")
+			escreva("\nModelo: ", modelos[indiceMaior])
+			escreva("\nCor: ", cores[indiceMaior])
+			escreva("\nStatus: ", status[indiceMaior])
+
+			se(locado[indiceMaior])
+			{
+				escreva("\nSituação: Locado")
+			}
+			senao
+			{
+				escreva("\nSituação: Disponível")
+			}
+
+			escreva("\nValor da Locação: R$ ", valoresLocacao[indiceMaior])
+			escreva("\nQuantidade de Locações: ", quantidadeLocacao[indiceMaior])
+			escreva("\nTotal em Manutenção: R$ ", valorManutencao[indiceMaior])
+			escreva("\nTotal Arrecadado: R$ ", maiorGanho, "\n")
+		}
+		funcao ReceitaELucroDoDia(
+		real valoresLocacao[],
+		logico locado[],
+		inteiro &quantidadeKarts,
+		real valorCircuito,
+		logico circuitoLocado)
+		{
+			real receita = 0
+			real lucro = 0
+			inteiro i
+
+			para(i = 0; i < quantidadeKarts; i++)
+			{
+				se(locado[i] == verdadeiro)
+				{
+					receita = receita + valoresLocacao[i]
+				}
+			}
+			se(circuitoLocado == verdadeiro)
+			{
+				real ganhoCircuito
+				ganhoCircuito = valorCircuito * 0.70
+				escreva("\nCircuito locado.")
+				escreva("\nAcréscimo do circuito: R$ ", ganhoCircuito)
+				receita = receita + ganhoCircuito
+			}
+
+			lucro = receita * 0.30
+
+			escreva("\n==============================")
+			escreva("\nRECEITA E LUCRO DO DIA")
+			escreva("\n==============================")
+			escreva("\nReceita: R$ ", receita)
+			escreva("\nLucro: R$ ", lucro, "\n")
+		}
+		funcao LocacaoCircuito(
+		real &valorCircuito,
+		logico &circuitoLocado)
+		{
+			inteiro opcao
+
+			se(valorCircuito == 0)
+			{
+				faca
+				{
+					escreva("\nDigite o valor de locação do circuito: ")
+					leia(valorCircuito)
+
+					se(valorCircuito <= 0)
+					{
+						escreva("\nValor inválido.")
+					}
+
+				}enquanto(valorCircuito <= 0)
+			}
+
+			se(circuitoLocado == verdadeiro)
+			{
+				escreva("\nO circuito já está locado.")
+				retorne
+			}
+
+			escreva("\nValor do circuito: R$ ", valorCircuito)
+			escreva("\nDeseja locar o circuito?")
+			escreva("\n1 - Sim")
+			escreva("\n2 - Não")
+			leia(opcao)
+
+			se(opcao == 1)
+			{
+				circuitoLocado = verdadeiro
+				escreva("\nCircuito locado com sucesso!")
+			}
+		}
+		funcao AtualizarDia(
+		cadeia modelos[],
+		inteiro &quantidadeKarts,
+		logico locado[],
+		logico &circuitoLocado)
+		{
+			inteiro i
+			logico encontrou = falso
+
+			escreva("\n================================")
+			escreva("\nATUALIZANDO DIA")
+			escreva("\n================================")
+
+			circuitoLocado = falso
+
+			escreva("\nCircuito liberado para nova locação.\n")
+
+			escreva("\nKarts que precisam de nova cobrança:\n")
+
+			para(i = 0; i < quantidadeKarts; i++)
+			{
+				se(locado[i] == verdadeiro)
+				{
+					escreva("- ", modelos[i], "\n")
+					encontrou = verdadeiro
+				}
+			}
+
+			se(encontrou == falso)
+			{
+				escreva("Nenhum kart locado.\n")
+			}
+		}
+}
     	
