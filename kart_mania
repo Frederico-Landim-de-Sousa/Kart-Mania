@@ -3,18 +3,25 @@ programa
 	inclua biblioteca Util-->u
 	
     funcao inicio(){
-    	
-    	cadeia modelos[15]
+
+//VETORES QUE ARMAZENAM OS DADOS DOS KARTS//
+        cadeia modelos[15]
     	cadeia cores[15]
     	cadeia status[15]
     	logico locado[15]
-	inteiro quantidadeKarts = 0
+
+//QUANTIDADE DE KARTS CADASTRADOS//
+     inteiro quantidadeKarts = 0
+
+//QUANTIDADE DE VEZES QUE CADA KART FOI ALUGADO//
      inteiro quantidadedeLocacao[15]
      inteiro opcao
-	real valoresLocacao[15]
+
+//VALORES DE LOCAÇÃO E MANUTENÇÃO//
+	 real valoresLocacao[15]
      real valorManutencao[15]
      real valorCircuito = 0
-	logico circuitoLocado = falso
+	 logico circuitoLocado = falso
 
         faca{	
         		
