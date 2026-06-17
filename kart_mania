@@ -5,20 +5,20 @@ programa
     funcao inicio(){
     	
 
-	//VETORES QUE ARMAZENAM OS DADOS DOS KARTS//
+
      cadeia modelos[15]
     	cadeia cores[15]
     	cadeia status[15]
     	logico locado[15]
 
-	//QUANTIDADE DE KARTS CADASTRADOS//
+
      inteiro quantidadeKarts = 0
 
-	//QUANTIDADE DE VEZES QUE CADA KART FOI ALUGADO//
+	
      inteiro quantidadedeLocacao[15]
      inteiro opcao
 
-	//VALORES DE LOCAÇÃO E MANUTENÇÃO//
+
 	real valoresLocacao[15]
      real valorManutencao[15]
      real valorCircuito = 0.00
@@ -316,17 +316,17 @@ programa
         	}
         	
         	faca{
-        	escreva(
-        		"Qual informação você deseja alterar:\n", 
-               "\n 1.Modelo: ", modelos[indice],
-               "\n 2.Cor: ", cores[indice],
-               "\n 3.Valor: R$ ", valoresLocacao[indice],
-               "\n 4.Status do carro: ", status[indice]
-        	  	)
-        	leia(opcaoAlterar)
+        		
+        		escreva(
+        			"Qual informação você deseja alterar:\n", 
+               	"\n 1.Modelo: ", modelos[indice],
+               	"\n 2.Cor: ", cores[indice],
+               	"\n 3.Valor: R$ ", valoresLocacao[indice],
+               	"\n 4.Status do carro: ", status[indice]
+        	  		)
+        			
+        			leia(opcaoAlterar)
         	  	
-		
-				
 				se(opcaoAlterar == 1){
 					
 					escreva("O modelo atual do carro e ", modelos[indice], " Qual o novo modelo para ser atribuido?\n")
@@ -363,7 +363,9 @@ programa
 
         	  				escreva("\nO valor de locação foi atualizado com sucesso\n")
         	  				
-        	  			}se(opcaoAlterar == 4){
+        	  			}senao se(opcaoAlterar == 4){
+
+        	  				faca{
         	  				
         	  				escreva("O status atual do seu carro e", status[indice], "Você deseja modificar para",
         	  				"\n1- Usavel",
@@ -378,12 +380,13 @@ programa
             						
     							escreva("\nQuanto foi gasto nesta manutenção? R$ ")
     							faca{
+    								
     								leia(custoManutencao)
     							
-   
-
     								se(custoManutencao < 0){
+    									
         								escreva("\nValor invalido")
+        								
    								}
 
 								}enquanto(custoManutencao < 0)
@@ -393,6 +396,7 @@ programa
     							
 	   						
 						}
+						
         	  				status[indice] = "Usavel"
 
 	   					escreva("\nSalvo para uso\n")
@@ -402,7 +406,6 @@ programa
             				
             				escreva("\nSalvo em manutenção\n")
             				
-            				
                 			status[indice] = "Em manuntenção"
                 			
                 			}senao{
@@ -411,12 +414,12 @@ programa
                 			
                 			}
             				
-        	  			}
+        	  			}enquanto(opcaoStatus != 1 e opcaoStatus !=2)
         	  		}
-        	  		enquanto(opcaoAlterar < 1 ou opcaoAlterar  > 4)
-     		}
+        	
+        	}enquanto(opcaoAlterar < 1 ou opcaoAlterar  > 4)
+        	}
     		
-		    		
     		   funcao AlugarKart( 
     		   		
     		   	cadeia modelos[],
