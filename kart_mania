@@ -3,8 +3,6 @@ programa
 	inclua biblioteca Util-->u
 	
     funcao inicio(){
-    	
-
 
      cadeia modelos[15]
     	cadeia cores[15]
@@ -18,7 +16,9 @@ programa
      inteiro quantidadedeLocacao[15]
      inteiro opcao
 
-
+	
+	real lucro = 0.0
+	real receita = 0.0
 	real valoresLocacao[15]
      real valorManutencao[15]
      real valorCircuito = 0.00
@@ -35,7 +35,7 @@ programa
             	se (opcao == 1) {
             		
                 	cadastrodeKarts(modelos, cores, status, valoresLocacao, valorManutencao, quantidadeKarts, quantidadedeLocacao, locado)
-                	u.aguarde(5000)
+                	u.aguarde(1000)
 
             	}senao se (opcao == 2) {
             		
@@ -60,6 +60,7 @@ programa
             	}senao se (opcao == 6) {
             	
                	AlugarKart(modelos, cores, status, valoresLocacao, quantidadeKarts,quantidadedeLocacao, locado)
+               	ReceitaELucroDoDia(opcao, receita, lucro, valoresLocacao,locado,quantidadeKarts,valorCircuito,circuitoLocado)
                	u.aguarde(5000)
                 
             	}senao se(opcao == 7){
@@ -74,7 +75,7 @@ programa
         			
         		}senao se(opcao == 9){
 
-				ReceitaELucroDoDia(valoresLocacao,locado,quantidadeKarts,valorCircuito,circuitoLocado)
+				ReceitaELucroDoDia(opcao, receita, lucro, valoresLocacao,locado,quantidadeKarts,valorCircuito,circuitoLocado)
 				u.aguarde(5000)
 
 			}senao se(opcao == 10){
@@ -84,13 +85,17 @@ programa
 
 			}senao se(opcao == 11){
 
-				AtualizarDia(modelos,quantidadeKarts,locado,circuitoLocado)
+				AtualizarDia(lucro, receita, modelos,quantidadeKarts,locado,circuitoLocado)
 				u.aguarde(5000)
 
 			}senao se (opcao == 12) {
             	
                 	escreva("Encerrando sistema...")
                 
+            	}senao{
+            		
+            		escreva("\nOpção invalida")
+            		
             	}
         }enquanto (opcao != 12)
     }
@@ -298,11 +303,11 @@ programa
      			"\nKart: ", i + 1,
                     "\nModelo: ", modelos[i],
                     "\nCor: ", cores[i],
-                    "\nValor: R$ \n", valoresLocacao[i]
+                    "\nValor: R$ ", valoresLocacao[i]
                 	)           	
             }
                     	
-        	escreva("Qual kart você deseja alterar informação?\n")
+        	escreva("\nQual kart você deseja alterar informação?\n")
         	leia(indice)
         	indice = indice - 1
         	escreva("\n Valor digitado: ", indice)
@@ -450,12 +455,15 @@ programa
     				
 				}
 				
+				
      			listarKartsDisponiveis(modelos, cores, status, valoresLocacao, quantidadeKarts, locado)
 				
 				escreva("\nDigite qual kart você deseja alugar?:\n")
      			leia(indice)
      			indice = indice - 1
+
      			
+				
      			se(indice < 0 ou indice >= quantidadeKarts){
         	
         				escreva("\n Kart inexistente")
@@ -469,6 +477,12 @@ programa
 
         				retorne
         			}
+        			se(status[indice] == "Em manuntenção")
+				{
+    					escreva("\nEste kart está em manutenção.")
+    					
+    					retorne
+				}
         			escreva("\nO kart selecionado foi ", indice+1, ". Agora esta locado\n")
         			locado[indice] = verdadeiro
 				quantidadeLocacao[indice] = quantidadeLocacao[indice] + 1
@@ -577,14 +591,16 @@ programa
 			escreva("\nTotal Arrecadado: R$ ", maiorGanho, "\n")
 		}
 		funcao ReceitaELucroDoDia(
-		real valoresLocacao[],
-		logico locado[],
-		inteiro &quantidadeKarts,
-		real valorCircuito,
-		logico circuitoLocado)
+			inteiro opcao,
+			real &receita,
+			real &lucro,
+			real valoresLocacao[],
+			logico locado[],
+			inteiro &quantidadeKarts,
+			real valorCircuito,
+			logico circuitoLocado)
 		{
-			real receita = 0.0
-			real lucro = 0.0
+		
 			inteiro i
 
 			para(i = 0; i < quantidadeKarts; i++)
@@ -598,18 +614,21 @@ programa
 			{
 				real ganhoCircuito
 				ganhoCircuito = valorCircuito * 0.70
+				se(opcao == 9){
 				escreva("\nCircuito locado.")
 				escreva("\nAcréscimo do circuito: R$ ", ganhoCircuito)
+				}
 				receita = receita + ganhoCircuito
 			}
 
 			lucro = receita * 0.30
-
+			se(opcao == 9){
 			escreva("\n==============================")
 			escreva("\nRECEITA E LUCRO DO DIA")
 			escreva("\n==============================")
 			escreva("\nReceita: R$ ", receita)
 			escreva("\nLucro: R$ ", lucro, "\n")
+			}
 		}
 		funcao LocacaoCircuito(
 		real &valorCircuito,
@@ -645,7 +664,7 @@ programa
 			escreva("\nValor do circuito: R$ ", valorCircuito)
 			escreva("\nDeseja locar o circuito?")
 			escreva("\n1 - Sim")
-			escreva("\n2 - Não")
+			escreva("\n2 - Não\n")
 			leia(opcao)
 
 
@@ -656,13 +675,19 @@ programa
 			}
 		}
 		funcao AtualizarDia(
-		cadeia modelos[],
-		inteiro &quantidadeKarts,
-		logico locado[],
-		logico &circuitoLocado)
+			
+			real &lucro,
+			real &receita,
+			cadeia modelos[],
+			inteiro &quantidadeKarts,
+			logico locado[],
+			logico &circuitoLocado)
 		{
 			inteiro i
 			logico encontrou = falso
+			
+			lucro = 0.0
+			receita = 0.0
 
 
 			escreva("\n================================")
@@ -674,16 +699,21 @@ programa
 
 			escreva("\nCircuito liberado para nova locação.\n")
 
-
+		
 			escreva("\nKarts que precisam de nova cobrança:\n")
 
 			para(i = 0; i < quantidadeKarts; i++)
 			{
-				se(locado[i] == verdadeiro)
-				{
-					escreva("- ", modelos[i], "\n")
-					encontrou = verdadeiro
-				}
+    				se(locado[i] == verdadeiro)
+    				{
+        				escreva("- ", modelos[i], "\n")
+        				encontrou = verdadeiro
+    				}
+			}
+
+			se(encontrou == falso)
+			{
+			    escreva("\nNenhum Kart para devolução.\n")
 			}
 
 		}
